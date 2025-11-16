@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Resume Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.6;
+            background-color: #fff2e9;
+            color: #8e656f;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        :root {
+            --primary: #fcbec3;
+            --primary-light: #fff2e9;
+            --accent: #cfdee3;
+            --dark: #8e656f;
+            --light: #ffffff;
+            --muted: #ffd4d3;
+        }
+
+        header {
+            background: linear-gradient(135deg, #fff2e9, #fcbec3);
+            color: rgb(48, 28, 40);
+            padding: 24px 16px 40px;
+        }
+
+        .wrapper {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a {
+            margin-left: 16px;
+            font-size: 0.95rem;
+            color: #cf8e93;
+        }
+
+        .nav-links a:hover {
+            color: #fee5fa;
+            text-decoration: underline;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 2fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .profile-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 12px;
+        }
+
+        .hero-left {
+            text-align: center;
+        }
+
+        .hero-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .hero-title {
+            font-size: 1rem;
+            color: #8e656f;
+            margin-bottom: 8px;
+        }
+
+        .hero-slogan {
+            font-style: italic;
+            font-size: 0.95rem;
+            color: #a4b8bf;
+        }
+
+        .hero-right {
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 12px;
+            padding: 16px 20px;
+        }
+
+        .info-list {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .info-list li span {
+            color: #fff2e9;
+            display: inline-block;
+            min-width: 60px;
+        }
+
+        .intro-text {
+            font-size: 0.95rem;
+        }
+
+        main {
+            padding: 32px 0 40px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        section h2 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            color: var(--dark);
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        /* ===== Skills 區：個人專業與技能 ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-block {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 16px 18px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.07);
+        }
+
+        .skill-block h3 {
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .skill-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .skill-tag {
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            background: var(--primary-light);
+            color: var(--dark);
+        }
+
+        .skill-meter {
+            margin: 6px 0;
+        }
+
+        .skill-meter-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9eef9;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 999px;
+            /* 簡單動態特效：載入時淡入條狀（加分用） */
+            transition: width 0.8s ease;
+        }
+
+       
+
+        /* ===== Experience 區：個人經歷 ===== */
+        .experience-list {
+            display: grid;
+            grid-template-columns: 1.4fr 1.4fr 1.4fr;
+            gap: 20px;
+        }
+
+        .experience-card {
+            background: var(--light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .experience-image {
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .experience-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* 簡單 hover 動態特效（加分用） */
+            transition: transform 0.4s ease;
+        }
+
+        .experience-card:hover .experience-image img {
+            transform: scale(1.05);
+        }
+
+        .experience-content {
+            padding: 14px 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .experience-meta {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .experience-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .experience-desc {
+            font-size: 0.9rem;
+            color: #374151;
+        }
+
+        .experience-links a {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .experience-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== Contact 區：聯絡資訊 ===== */
+        .contact-box {
+            background: var(--dark);
+            color: #f9fafb;
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: grid;
+            grid-template-columns: 1.5fr 1.2fr;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .contact-box h3 {
+            margin-bottom: 8px;
+        }
+
+        .contact-detail {
+            font-size: 0.95rem;
+        }
+
+        .contact-detail a {
+            color: #bfdbfe;
+        }
+
+        .contact-detail a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .social-links a::before {
+            content: "• ";
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            padding: 16px;
+            color: var(--muted);
+        }
+
+        /* ===== RWD：手機版調整 ===== */
+        @media (max-width: 780px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-left {
+                order: -1;
+            }
+
+            .experience-list {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-box {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .nav-links a {
+                margin-left: 0;
+                margin-right: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding-top: 16px;
+            }
+
+            .profile-photo {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-name {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ===== 加分項：錨點平滑滾動（純 CSS 特效） ===== */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- ================= Header：個人基本資訊 ================= -->
+    <header>
+        <div class="wrapper">
+            <nav>
+                <div class="logo">MY RESUME</div>
+                <div class="nav-links">
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+
+            <section id="about" class="hero">
+                <div class="hero-left">
+                    <div class="profile-photo">
+                        <img src="images/profile.jpg" alt="Profile photo">
+                    </div>
+                    <p class="hero-name">黃沛慈 Pei-Cih,Huang</p>
+                    <p class="hero-title">Information Management Student</p>
+                    <p class="hero-slogan">「用程式把想法變成作品，用態度把作品變成價值。」</p>
+                </div>
+
+                <div class="hero-right">
+                    <ul class="info-list">
+                        <li><span>學校</span> 中原大學 資訊管理學系</li>
+                        <li><span>年級</span> 二年級</li>
+                        <li><span>專長</span> 網頁前端、資料分析、專案協調</li>
+                        <li><span>興趣</span> 音樂演奏、攝影、程式設計</li>
+                    </ul>
+                    <p class="intro-text">
+                        我是一位擅長溝通協調與團隊合作的學生，喜歡把複雜的需求整理成清楚的畫面與流程。
+                        在課堂專案與社團活動中，常擔任「把大家的想法變成實際作品」的角色。
+                        優點是負責、耐心、願意主動學新東西；缺點是有時太追求完美，但也因此更加注意細節。
+                    </p>
+                </div>
+            </section>
+        </div>
+    </header>
+
+    <!-- ================= 內容 ================= -->
+    <main>
+        <div class="wrapper">
+            <!-- ===== (三) 個人專業與技能 ===== -->
+            <section id="skills">
+                <h2>專業與技能 Skills</h2>
+
+                <div class="skills-grid">
+                    <!-- 程式與技術技能 -->
+                    <article class="skill-block">
+                        <h3>Programming & Web</h3>
+                        <div class="skill-tag-list">
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">JavaScript</span>
+                        </div>
+
+                        <div class="skill-meter">
+                            <div class="skill-meter-label">
+                                <span>HTML / CSS</span><span>60%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 60%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-meter">
+                            <div class="skill-meter-label">
+                                <span>Java</span><span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 70%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-meter">
+                            <div class="skill-meter-label">
+                                <span>Git / GitHub</span><span>50%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 商管與資料技能 -->
+                    <article class="skill-block">
+                        <h3>Business & Data</h3>
+                        <p style="font-size:0.9rem; margin-bottom:8px;">
+                            修課與專題集中在資料分析與企業資料通訊，善於將數字轉成易懂的圖表與結論。
+                        </p>
+                        <div class="skill-tag-list">
+                            <span class="skill-tag">Excel / Google Sheet</span>
+                            <span class="skill-tag">資料視覺化</span>
+                            <span class="skill-tag">簡報製作</span>
+                        </div>
+
+                        <div class="skill-meter">
+                            <div class="skill-meter-label">
+                                <span>資料整理與分析</span><span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 80%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-meter">
+                            <div class="skill-meter-label">
+                                <span>簡報與口頭報告</span><span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-bar-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 軟實力與團隊技能 -->
+                    <article class="skill-block">
+                        <h3>Soft Skills</h3>
+                        <ul style="font-size:0.9rem; color:#374151; margin-left: 16px; list-style: disc;">
+                            <li>能主動規劃專案時程，分配工作與追蹤進度。</li>
+                            <li>喜歡傾聽組員的想法，協助整理成具體執行方案。</li>
+                            <li>在社團與課堂報告中，具備穩定的上台表達能力。</li>
+                            <li>善於使用雲端文件協作與紀錄會議重點。</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ===== (四) 個人經歷 ===== -->
+            <section id="experience">
+                <h2>個人經歷 Experience</h2>
+
+                <div class="experience-list">
+                    <!-- 經歷一：課程專題 -->
+                    <article class="experience-card">
+                        <div class="experience-image">
+                            <img src="images/project-course.jpg" alt="Course project screenshot">
+                        </div>
+                        <div class="experience-content">
+                            <p class="experience-meta">2025 · 課程專題</p>
+                            <h3 class="experience-title">企業概論：桃園一日遊行銷專案</h3>
+                            <p class="experience-desc">
+                                在九人小組中擔任行銷與網頁規劃角色，負責整理旅遊動線、設計宣傳文案與簡易官網版面。
+                                將 SWOT 分析結果轉換成具體的賣點標題，並製作圖文並茂的簡報，最後成功在期末發表中獲得老師與同學的正面回饋。
+                            </p>
+                            <div class="experience-links">
+                                <a href="https://www.canva.com/design/DAGl6cmfQII/tFkfJgLPtcC0bJ3BODxb6g/view?utm_content=DAGl6cmfQII&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h831034fc07" target="_blank">查看專案作品 / 網頁</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 經歷二：社團與活動 -->
+                    <article class="experience-card">
+                        <div class="experience-image">
+                            <img src="images/project-club.jpg" alt="Club performance photo">
+                        </div>
+                        <div class="experience-content">
+                            <p class="experience-meta">2024–2025 · 社團活動</p>
+                            <h3 class="experience-title">音樂性社團 × 演出與宣傳</h3>
+                            <p class="experience-desc">
+                                參與社團表演與校內活動擺攤，負責部分曲目練習與舞台節目流程協調。
+                                同時協助經營 IG 宣傳帳號，製作活動主視覺與限時動態模板，讓演出資訊更清楚傳達給同學，提升活動參與度。
+                            </p>
+                            
+                        </div>
+                    </article>
+
+                    <!-- 經歷三：個人 project / 線上作品 -->
+                    <article class="experience-card">
+                        <div class="experience-image">
+                            <img src="images/project-vali.jpg" alt="Personal website screenshot">
+                        </div>
+                        <div class="experience-content">
+                            <p class="experience-meta">2025 · QGIS/資料視覺化專題</p>
+                            <h3 class="experience-title">桃園眷村分布地圖製作與分析──以 QGIS 為工具的地理資訊視覺化專題</h3>
+                            <p class="experience-desc">
+                                本專題聚焦桃園地區眷村空間的歷史分布與變遷，運用 QGIS 製作眷村分布地圖，
+                                並以《2020桃園學研討會論文集》等資料整理 GeoJSON 圖層。透過屬性分類與圖層視覺化，
+                                我們分析中壢、龜山、平鎮等區眷村與都市發展、文化再生之關聯。從資料清理、座標定位到配色與標註設計，
+                                讓我熟悉 GIS 工具操作，也學會如何以地圖視覺化保存地方記憶與空間故事。
+                            </p>
+                            <div class="experience-links"></div>
+                                <a href="https://youtu.be/dc0KB3AZhM8?si=TfKutfI86B_K909M" target="_blank">查看成果影片
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ===== (五) 聯絡資訊 ===== -->
+            <section id="contact">
+                <h2>聯絡資訊 Contact</h2>
+
+                <div class="contact-box">
+                    <div>
+                        <h3>聯絡我</h3>
+                        <p class="contact-detail">
+                            如有實習、工讀或合作機會，歡迎與我聯繫：<br>
+                            Email：
+                            <!-- (2) Email 發信：mailto -->
+                            <a href="mailto:yourmail@example.com">peici7721@gmail.com</a><br>
+                            手機：0902-350-550（上課時不方便接聽，建議先寄信或私訊）
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Social & Links</h3>
+                        <div class="social-links">
+                            <!-- (1) FB、IG、LinkedIn…等連結 -->
+                            <a href="https://www.facebook.com/hua.pei.ci.2025?locale=zh_TW" target="_blank">Facebook</a>
+                            <a href="https://www.instagram.com/pie.7c/" target="_blank">Instagram</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ================= Footer ================= -->
+    <footer>
+        © 2025 Your Name. Designed & coded by myself for resume.
+    </footer>
+</body>
+</html>
